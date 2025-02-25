@@ -43,4 +43,5 @@ public:
 
 private:
   ByteStream output_;
+  vector<pair<uint64_t, string>> buffer_pairs_;
 };
