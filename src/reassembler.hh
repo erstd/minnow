@@ -1,8 +1,8 @@
 #pragma once
-#include <string>
 #include "byte_stream.hh"
-#include <vector>
+#include <string>
 #include <utility>
+#include <vector>
 using namespace std;
 
 class Reassembler
@@ -46,5 +46,6 @@ public:
 
 private:
   ByteStream output_;
-  vector<pair<size_t,string>> buffer = {};
+  vector<pair<size_t, string>> buffer = {};
+  size_t pos = -1;
 };

@@ -9,11 +9,11 @@ void Writer::push( string data )
 
   uint64_t len = data.size();
   uint64_t a = available_capacity();
-  if(a>=len){
-    stream.append(data);
+  if ( a >= len ) {
+    stream.append( data );
     pushed_capacity_ += len;
-  }else{
-    stream.append(data.substr(0,a));
+  } else {
+    stream.append( data.substr( 0, a ) );
     pushed_capacity_ += a;
   }
 }
@@ -31,7 +31,7 @@ bool Writer::is_closed() const
 
 uint64_t Writer::available_capacity() const
 {
-  return capacity_ - uint64_t(stream.size()); // Your code here.
+  return capacity_ - uint64_t( stream.size() ); // Your code here.
 }
 
 uint64_t Writer::bytes_pushed() const
@@ -42,28 +42,27 @@ uint64_t Writer::bytes_pushed() const
 string_view Reader::peek() const
 {
   string_view str;
-  if(!stream.empty()){
+  if ( !stream.empty() ) {
     str = stream;
     return str;
-  }else{
+  } else {
     return str;
   }
 }
 
 void Reader::pop( uint64_t len )
 {
-  if(len<=stream.size()){
-    stream.erase(0,len);
+  if ( len <= stream.size() ) {
+    stream.erase( 0, len );
     poped = poped + len;
   }
 }
 
 bool Reader::is_finished() const
 {
-  if(write_closed){
-    return {peek().empty() ? true: false
-    }; // Your code here.
-  }else{
+  if ( write_closed ) {
+    return { peek().empty() ? true : false }; // Your code here.
+  } else {
     return false;
   }
 }
@@ -77,6 +76,3 @@ uint64_t Reader::bytes_popped() const
 {
   return poped; // Your code here.
 }
-
-
-
