@@ -3,8 +3,15 @@
 #include "byte_stream.hh"
 #include "tcp_receiver_message.hh"
 #include "tcp_sender_message.hh"
-
+#include <map>
+#include <queue>
 #include <functional>
+
+class Segment(TCPSenderMessage m){
+  TCPSenderMessage msg(m);
+  size_t resend = 1;
+  size_t time = 0;
+};
 
 class TCPSender
 {
@@ -38,8 +45,10 @@ public:
 
 private:
   Reader& reader() { return input_.reader(); }
-
   ByteStream input_;
   Wrap32 isn_;
   uint64_t initial_RTO_ms_;
+
+  std::queue<TCPSenderMessage> msgQueue{};
+  std::map<uint32_t,Segment> buffer{};
 };

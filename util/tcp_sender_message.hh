@@ -24,6 +24,13 @@
 
 struct TCPSenderMessage
 {
+  TCPSenderMessage(TCPSenderMessage m){
+    seqno.set_value(m.seqno.get_value());
+    SYN = m.SYN;
+    payload = m.payload;
+    FIN = m.FIN;
+    RST = m.RST;
+  };
   Wrap32 seqno { 0 };
 
   bool SYN {};
