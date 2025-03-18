@@ -29,7 +29,7 @@ public:
   Wrap32 operator+( uint32_t n ) const { return Wrap32 { raw_value_ + n }; }
   bool operator==( const Wrap32& other ) const { return raw_value_ == other.raw_value_; }
 
-  uint32_t get_value() { return raw_value_; }
+  uint32_t get_value() const { return raw_value_; }
 
   void set_value( uint32_t d ) { raw_value_ = d; }
 
