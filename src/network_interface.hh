@@ -3,9 +3,10 @@
 #include "address.hh"
 #include "ethernet_frame.hh"
 #include "ipv4_datagram.hh"
-
 #include <memory>
 #include <queue>
+#include <unordered_map>
+#include <vector>
 
 // A "network interface" that connects IP (the internet layer, or network layer)
 // with Ethernet (the network access layer, or link layer).
@@ -82,4 +83,20 @@ private:
 
   // Datagrams that have been received
   std::queue<InternetDatagram> datagrams_received_ {};
+
+  struct cached_the
+  {
+    EthernetAddress add {};
+    int time = 0;
+    bool known = false; // true为已知，false为正在查询
+  };
+
+  struct dgram_to_send
+  {
+    InternetDatagram dgram {};
+    uint32_t next_hop;
+  };
+
+  std::unordered_map<uint32_t, cached_the> cache_ {}; // 储存IP到以太地址的缓存,time为复数表明正在广播寻址
+  std::vector<dgram_to_send> datagrams_to_send {};
 };

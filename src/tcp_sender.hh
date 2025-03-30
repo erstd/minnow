@@ -1,18 +1,20 @@
 #pragma once
-#include <cstdint>
 #include "byte_stream.hh"
 #include "tcp_receiver_message.hh"
 #include "tcp_sender_message.hh"
+#include <algorithm>
+#include <cstdint>
+#include <functional>
 #include <map>
 #include <queue>
-#include <functional>
-#include <algorithm>
 
-class Timer{
+class Timer
+{
 public:
   uint32_t pos = 0;
   size_t time = 0;
-  void reset(uint32_t t){
+  void reset( uint32_t t )
+  {
     time = 0;
     pos = t;
     finished = false;
@@ -20,22 +22,24 @@ public:
   bool finished = false;
 };
 
-class Segment{
+class Segment
+{
 public:
-  Segment(){};
-  Segment(TCPSenderMessage& m){
-    msg.seqno.set_value(m.seqno.get_value());
+  Segment() {};
+  Segment( TCPSenderMessage& m )
+  {
+    msg.seqno.set_value( m.seqno.get_value() );
     msg.SYN = m.SYN;
     msg.payload = m.payload;
     msg.FIN = m.FIN;
     msg.RST = m.RST;
   };
-  TCPSenderMessage msg{};
+  TCPSenderMessage msg {};
   size_t resend = 0;
-  //size_t time = 0;
-  bool ok = false;      //次段是否传输完成
-  //bool timer = false;  //定时器是否启动
-  bool is_win_zero =false;
+  // size_t time = 0;
+  bool ok = false; // 次段是否传输完成
+  // bool timer = false;  //定时器是否启动
+  bool is_win_zero = false;
 };
 
 class TCPSender
@@ -76,12 +80,12 @@ private:
   Wrap32 isn_;
   uint64_t initial_RTO_ms_;
   uint64_t time_tw = 0;
-  std::deque<TCPSenderMessage> msgQueue{};
-  std::vector<uint32_t> ackno_pos{};
+  std::deque<TCPSenderMessage> msgQueue {};
+  std::vector<uint32_t> ackno_pos {};
   size_t bytes_send = 0;
-  size_t max_cap = 1;   //最多可以push的bytes,包含ISN
-  //uint64_t max_ackno = 0;  //当前定时器追踪的segment
-  std::map<uint32_t,Segment> buffer{};
+  size_t max_cap = 1; // 最多可以push的bytes,包含ISN
+  // uint64_t max_ackno = 0;  //当前定时器追踪的segment
+  std::map<uint32_t, Segment> buffer {};
   bool start = false;
   bool end = false;
   uint32_t is_win_zero = 0;
