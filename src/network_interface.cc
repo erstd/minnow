@@ -88,7 +88,6 @@ void NetworkInterface::recv_frame( EthernetFrame frame )
     ARPMessage msg;
     Parser par( frame.payload );
     msg.parse( par );
-    cout << msg.sender_ip_address << '\n';
     if ( cache_.find( msg.sender_ip_address ) == cache_.end() ) {
       cache_.emplace( msg.sender_ip_address, cached_the { msg.sender_ethernet_address, 0, true } );
       debug( "缓存一个新的映射" );
